@@ -79,7 +79,7 @@ void vid_init()
 		vmode[1] = 144 * scale;
 	}
 	if (vmode[2] == 32)
-		fmt = SDL_PIXELFORMAT_BGRA32;
+		fmt = SDL_PIXELFORMAT_ARGB8888;
 	else if(vmode[2] == 16)
 		fmt = SDL_PIXELFORMAT_BGR565;
 	else
