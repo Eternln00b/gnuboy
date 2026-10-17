@@ -1,8 +1,8 @@
-sdk_root="/home/maximilien/projets/mini_snes/N00b-Power.SDK"
+sdk_root="$HOME/Projects/N00b-Power.SDK"
 sdk_sysroot="${sdk_root}/sysroot"
 linaro_cc="${sdk_root}/gcc-linaro/bin"
 export CC="${linaro_cc}/arm-linux-gnueabihf-gcc"
 export CFLAGS="--sysroot=${sdk_sysroot} -marm -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard -I${sdk_sysroot}/usr/include -I${sdk_sysroot}/usr/include/SDL2 -D_REENTRANT"
 export LDFLAGS="--sysroot=${sdk_sysroot} -L${sdk_sysroot}/usr/lib -lSDL2"
-export CPPFLAGS="-I${sdk_sysroot}/usr/include -I${sdk_sysroot}/usr/include/SDL2"
+export CPPFLAGS="--sysroot=${sdk_sysroot} -I${sdk_sysroot}/usr/include -I${sdk_sysroot}/usr/include/SDL2"
 ./configure --host=arm-linux-gnueabihf --prefix="${sdk_sysroot}/usr" --with-sdl2 --without-sdl --without-x --without-fb --without-svgalib
