@@ -1,4 +1,4 @@
-sdk_root = /home/maximilien/projets/git/N00b-Power.SDK_edit/N00b-Power.SDK
+sdk_root = /home/kali/Projects/N00b-Power.SDK
 sdk_sysroot = ${sdk_root}/sysroot
 linaro_cc = ${sdk_root}/gcc-linaro/bin
 
@@ -27,21 +27,8 @@ SYS_DEFS = -DHAVE_CONFIG_H -DIS_LITTLE_ENDIAN
 SYS_OBJS = sys/nix/nix.o $(ASM_OBJS)
 SYS_INCS =  -I./sys/nix
 
-FB_OBJS =  sys/linux/joy.o sys/oss/oss.o
-FB_LIBS = 
-
-SVGA_OBJS = sys/svga/svgalib.o sys/pc/keymap.o sys/linux/joy.o sys/oss/oss.o
-SVGA_LIBS = -L/usr/local/lib -lvga
-
-SDL_OBJS = sys/sdl/sdl.o sys/sdl/sdl-audio.o sys/sdl/keymap.o sys/sdl/sdl-joystick.o
-SDL_LIBS = 
-SDL_CFLAGS = 
-
 SDL2_OBJS = sys/sdl2/sdl2.o sys/sdl2/sdl-audio.o sys/sdl2/keymap.o sys/sdl2/sdl-joystick.o
 SDL2_LIBS = -lSDL2
-
-X11_OBJS = sys/x11/xlib.o sys/x11/keymap.o sys/linux/joy.o sys/oss/oss.o
-X11_LIBS =  -lX11 -lXext
 
 all: $(TARGETS)
 
