@@ -26,7 +26,7 @@ PSP_MODULE_INFO("GnuBoy", 0, 1, 0);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_VFPU | THREAD_ATTR_USER);
 #endif
 
-
+// nintendo classic fixes
 static char *defaultconfig[] =
 {
 	"bootrom_dmg \"\"",
@@ -45,10 +45,10 @@ static char *defaultconfig[] =
 	"bind joydown +down",
 	"bind joyleft +left",
 	"bind joyright +right",
-	"bind joy0 +b",
-	"bind joy1 +a",
-	"bind joy2 +select",
-	"bind joy3 +start",
+	"bind joy1 +b",
+	"bind joy0 +a",
+	"bind joy8 +select",
+	"bind joy9 +start",
 	"bind 1 \"set saveslot 1\"",
 	"bind 2 \"set saveslot 2\"",
 	"bind 3 \"set saveslot 3\"",
