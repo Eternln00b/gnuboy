@@ -2,6 +2,8 @@
 #define _POSIX_C_SOURCE 200809L
 #undef _GNU_SOURCE
 #define _GNU_SOURCE
+#include <sys/stat.h> 
+#include <sys/types.h>
 #include <string.h>
 
 #include <stdio.h>
@@ -543,6 +545,19 @@ static void cleanup()
 int loader_init(char *s)
 {
 	char *name, *p;
+
+	// nintendo classic optimizations
+	bootroms[0] = "/etc/libretro/system/gb_bios.bin";
+    bootroms[1] = "/etc/libretro/system/gbc_bios.bin";
+
+	savedir = "/tmp/gnuboy/sav";
+	struct stat st = {0};
+
+	if (stat(savedir, &st) == -1) {
+    
+		mkdir(savedir, 0755);
+	
+	}
 
 	sys_checkdir(savedir, 1); /* needs to be writable */
 

@@ -16,7 +16,7 @@ CFLAGS += -Wno-unused-function -Wno-deprecated-declarations -Wno-overlength-stri
 CFLAGS += -finline-limit=42 -fno-unroll-loops -fno-ipa-cp -ffast-math
 CFLAGS += -fno-common -fno-stack-protector -fno-guess-branch-probability -fno-caller-saves -fno-tree-loop-if-convert -fno-regmove
 CPPFLAGS = --sysroot=${sdk_sysroot} -DHAVE_SYS_SOUNDCARD_H
-LDFLAGS = $(CFLAGS) --sysroot=${sdk_sysroot} -L${sdk_sysroot}/usr/lib -lSDL2
+LDFLAGS = $(CFLAGS) --sysroot=${sdk_sysroot} -L${sdk_sysroot}/usr/lib
 ASFLAGS = $(CFLAGS)
 
 TARGETS =  sdl2gnuboy
