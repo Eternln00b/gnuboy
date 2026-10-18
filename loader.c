@@ -551,7 +551,9 @@ int loader_init(char *s)
 	bootroms[0] = "/etc/libretro/system/gb_bios.bin";
     bootroms[1] = "/etc/libretro/system/gbc_bios.bin";
 
-	savedir = "/tmp/gnuboy/sav";
+	// it doesn't always work...
+	savedir = "/media/hakchi/gnuboy";
+
 	struct stat st = {0};
 
 	if (stat(savedir, &st) == -1) {
