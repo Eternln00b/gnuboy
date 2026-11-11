@@ -109,14 +109,11 @@ else
  with_sdl=no
 fi
 
-# sdl, until sdl3 comes along, still only supports sleeping with millisecond
-# granularity.
-if true ; then #test "$with_sdl" != yes && test "$with_sdl2" != yes ; then
+if test "$with_sdl" != yes && test "$with_sdl2" != yes ; then
 AC_CHECK_FUNCS(usleep, ,[
-AC_CHECK_FUNCS(nanosleep, ,[
 AC_CHECK_FUNCS(select, ,[
-AC_MSG_ERROR(your system must support either usleep, nanosleep or select)
-])])])
+AC_MSG_ERROR(your system must support either usleep or select)
+])])
 fi
 
 if test "$with_x" != "no" ; then
@@ -194,7 +191,7 @@ case "$enable_optimize" in
 yes|full)
 AC_MSG_RESULT(producing heavily optimized code)
 
-CFLAGS="-O3 -g $CFLAGS"
+CFLAGS="$CFLAGS -O3"
 
 case "$host" in
 x86_64*|i?86*) CFLAGS="$CFLAGS -DALLOW_UNALIGNED_IO" ;;
@@ -208,7 +205,7 @@ esac
 
 if test "$enable_debug" != yes -a "$enable_profile" != yes ; then
 CFLAGS="$CFLAGS -fomit-frame-pointer"
-#LDFLAGS="$LDFLAGS -s"
+LDFLAGS="$LDFLAGS -s"
 fi ;;
 
 low)

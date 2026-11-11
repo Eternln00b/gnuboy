@@ -143,17 +143,70 @@ void sdljoy_process_event(SDL_Event *event)
 			break;
 		}
 		break;
+
+	// nintendo classic fixes
 	case SDL_JOYBUTTONUP:
-		if (event->jbutton.button>15) break;
+
+		if (event->jbutton.button > 15) break;
 		ev.type = EV_RELEASE;
-		ev.code = K_JOY0 + event->jbutton.button;
+		
+		switch (event->jbutton.button) {
+
+			case 13: 
+				ev.code = K_JOYUP; 
+				break;
+
+			case 14: 
+				ev.code = K_JOYDOWN; 
+				break;
+
+			case 11: 
+				ev.code = K_JOYLEFT; 
+				break;
+
+			case 12: 
+				ev.code = K_JOYRIGHT; 
+				break;
+			
+			default: 
+				ev.code = K_JOY0 + event->jbutton.button; 
+				break; 
+		}
+		
 		ev_postevent(&ev);
 		break;
+
+	// nintendo classic fixes
 	case SDL_JOYBUTTONDOWN:
-		if (event->jbutton.button>15) break;
+
+		if (event->jbutton.button > 15) break;
 		ev.type = EV_PRESS;
-		ev.code = K_JOY0+event->jbutton.button;
+		
+		switch (event->jbutton.button) {
+
+			case 13: 
+				ev.code = K_JOYUP; 
+				break;
+
+			case 14: 
+				ev.code = K_JOYDOWN; 
+				break;
+			
+			case 11: 
+				ev.code = K_JOYLEFT; 
+				break;
+			
+			case 12: 
+				ev.code = K_JOYRIGHT; 
+				break;
+			
+			default: 
+				ev.code = K_JOY0 + event->jbutton.button; 
+				break; 
+		}
+		
 		ev_postevent(&ev);
 		break;
+
 	}
 }

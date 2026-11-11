@@ -2,7 +2,10 @@
 #define _POSIX_C_SOURCE 200809L
 #undef _GNU_SOURCE
 #define _GNU_SOURCE
+#include <sys/stat.h> 
+#include <sys/types.h>
 #include <string.h>
+#include <unistd.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -544,6 +547,20 @@ int loader_init(char *s)
 {
 	char *name, *p;
 
+	// nintendo classic optimizations
+	bootroms[0] = "/etc/libretro/system/gb_bios.bin";
+    bootroms[1] = "/etc/libretro/system/gbc_bios.bin";
+
+	savedir = "/tmp/gnuboy/sav";
+
+	struct stat st = {0};
+
+	if (stat(savedir, &st) == -1) {
+    
+		mkdir(savedir, 0755);
+	
+	}
+
 	sys_checkdir(savedir, 1); /* needs to be writable */
 
 	romfile = s;
@@ -559,7 +576,7 @@ int loader_init(char *s)
 	else if (romfile && *base(romfile) && strcmp(romfile, "-"))
 	{
 		name = strdup(base(romfile));
-		p = strrchr(name, '.');
+		p = strchr(name, '.');
 		if (p) *p = 0;
 	}
 	else name = ldup(rom.name);

@@ -73,9 +73,8 @@ static int cmd_unbind(int argc, char **argv)
 	return rc_unbindkey(argv[1]);
 }
 
-static int cmd_unbindall(int argc, char **argv)
+static int cmd_unbindall()
 {
-	(void) argc; (void) argv;
 	rc_unbindall();
 	return 0;
 }
@@ -87,16 +86,14 @@ static int cmd_source(int argc, char **argv)
 	return rc_sourcefile(argv[1]);
 }
 
-static int cmd_quit(int argc, char **argv)
+static int cmd_quit()
 {
-	(void) argc; (void) argv;
 	exit(0);
 	/* NOT REACHED */
 }
 
-static int cmd_reset(int argc, char **argv)
+static int cmd_reset()
 {
-	(void) argc; (void) argv;
 	emu_reset();
 	return 0;
 }

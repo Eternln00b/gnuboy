@@ -16,6 +16,7 @@
 #include "loader.h"
 #include "mem.h"
 #include "menu.h"
+#include "hw.h"
 
 #include "Version"
 
@@ -26,7 +27,7 @@ PSP_MODULE_INFO("GnuBoy", 0, 1, 0);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_VFPU | THREAD_ATTR_USER);
 #endif
 
-
+// nintendo classic fixes
 static char *defaultconfig[] =
 {
 	"bootrom_dmg \"\"",
@@ -45,10 +46,10 @@ static char *defaultconfig[] =
 	"bind joydown +down",
 	"bind joyleft +left",
 	"bind joyright +right",
-	"bind joy0 +b",
-	"bind joy1 +a",
-	"bind joy2 +select",
-	"bind joy3 +start",
+	"bind joy1 +b",
+	"bind joy0 +a",
+	"bind joy8 +select",
+	"bind joy9 +start",
 	"bind 1 \"set saveslot 1\"",
 	"bind 2 \"set saveslot 2\"",
 	"bind 3 \"set saveslot 3\"",
@@ -176,6 +177,26 @@ static void version(char *name)
 }
 
 
+/* nintendo classic: SELECT + START opens the menu (save/load state).
+   the buttons are recognized by their binding ("+select" / "+start"),
+   so it works with whatever key or joystick button is bound to them. */
+static int combo_select, combo_start;
+
+static int is_bound_to(int key, const char *action)
+{
+	char *bind = rc_getkeybind(key);
+	return bind && bind[0] == '+' && !strcmp(bind + 1, action);
+}
+
+/* release every GB button, so nothing stays stuck after the menu */
+static void pad_clear(void)
+{
+	int i;
+	for (i = 0; i < 8; i++)
+		pad_set(1 << i, 0);
+	combo_select = combo_start = 0;
+}
+
 void doevents()
 {
 	event_t ev;
@@ -187,6 +208,18 @@ void doevents()
 		if (ev.type != EV_PRESS && ev.type != EV_RELEASE)
 			continue;
 		st = (ev.type != EV_RELEASE);
+
+		if (is_bound_to(ev.code, "select")) combo_select = st;
+		else if (is_bound_to(ev.code, "start")) combo_start = st;
+
+		if (st && combo_select && combo_start)
+		{
+			/* don't forward this press to the game, release
+			   both buttons and let main() enter the menu */
+			pad_clear();
+			emu_pause(1);
+			return;
+		}
 		rc_dokey(ev.code, st);
 	}
 }
@@ -382,6 +415,9 @@ int main(int argc, char *argv[])
 		pcm_pause(1);
 		menu_initpage(mp_main);
 		menu_enter();
+		/* button releases were eaten by the menu (and a loaded state
+		   may restore a held pad): start again with all buttons up */
+		pad_clear();
 		pcm_pause(0);
 		emu_pause(0);
 	}
